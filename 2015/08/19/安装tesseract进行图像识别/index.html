@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>折腾录</title>
+  <title>安装tesseract进行图像识别 | 折腾录</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="折腾录">
-<meta property="og:url" content="http://sdhjl2000.github.io/index.html">
+  <meta name="description" content="这两天在使用pillow完成图像识别的一个小任务，mac上配置起来还算方便，但是再centos服务器配置的时候遇到一些麻烦，记录下来
+方案1：http://pkgs.org/download/tesseract，安装后和训练数据(https://code.google.com/p/tesseract-ocr/downloads/list)无法正常使用，提示actual_tessdata_num_e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装tesseract进行图像识别">
+<meta property="og:url" content="http://sdhjl2000.github.io/2015/08/19/安装tesseract进行图像识别/index.html">
 <meta property="og:site_name" content="折腾录">
-<meta property="og:description">
+<meta property="og:description" content="这两天在使用pillow完成图像识别的一个小任务，mac上配置起来还算方便，但是再centos服务器配置的时候遇到一些麻烦，记录下来
+方案1：http://pkgs.org/download/tesseract，安装后和训练数据(https://code.google.com/p/tesseract-ocr/downloads/list)无法正常使用，提示actual_tessdata_num_e">
+<meta property="og:updated_time" content="2015-08-19T13:24:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="折腾录">
-<meta name="twitter:description">
+<meta name="twitter:title" content="安装tesseract进行图像识别">
+<meta name="twitter:description" content="这两天在使用pillow完成图像识别的一个小任务，mac上配置起来还算方便，但是再centos服务器配置的时候遇到一些麻烦，记录下来
+方案1：http://pkgs.org/download/tesseract，安装后和训练数据(https://code.google.com/p/tesseract-ocr/downloads/list)无法正常使用，提示actual_tessdata_num_e">
   
     <link rel="alternative" href="/atom.xml" title="折腾录" type="application/atom+xml">
   
@@ -58,9 +62,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="centos-安装tesseract进行图像识别" class="article article-type-centos" itemscope itemprop="blogPost">
+        <section id="main"><article id="centos-安装tesseract进行图像识别" class="article article-type-centos" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/08/19/安装tesseract进行图像识别/" class="article-date">
   <time datetime="2015-08-19T13:23:00.000Z" itemprop="datePublished">2015-08-19</time>
@@ -73,8 +75,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/19/安装tesseract进行图像识别/">安装tesseract进行图像识别</a>
+    <h1 class="article-title" itemprop="name">
+      安装tesseract进行图像识别
     </h1>
   
 
@@ -99,60 +101,20 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-centos安装shadowsocks" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/16/centos安装shadowsocks/" class="article-date">
-  <time datetime="2015-08-16T12:37:29.000Z" itemprop="datePublished">2015-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/centos安装shadowsocks/">centos安装shadowsocks</a>
-    </h1>
+    <a href="/2015/08/16/centos安装shadowsocks/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">centos安装shadowsocks</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>wget <a href="https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip</a></p>
-<p>unzip master.zip</p>
-<h1 id="开始编译">开始编译</h1><p>cd shadowsocks-libev*</p>
-<p>./autogen.sh</p>
-<p>./configure –prefix=/usr &amp;&amp; make</p>
-<p>make install</p>
-<h1 id="准备必须的文件">准备必须的文件</h1><p>mkdir -p /etc/shadowsocks-libev</p>
-<p>cp ./rpm/SOURCES/etc/init.d/shadowsocks-libev /etc/init.d/shadowsocks-libev</p>
-<p>cp ./debian/config.json /etc/shadowsocks-libev/config.json</p>
-<p>chmod +x /etc/init.d/shadowsocks-libev</p>
-<h1 id="编辑配置文件">编辑配置文件</h1><p>vim /etc/shadowsocks-libev/config.json</p>
-<h1 id="启动服务">启动服务</h1><p>service shadowsocks-libev start</p>
-<p>#启动本地socks<br>sslocal -c /etc/shadowsocks-libev/config.json -d start –pid-file /tmp/sslocal.pid –log-file /tmp/sslocal.log</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://sdhjl2000.github.io/2015/08/16/centos安装shadowsocks/" data-id="ciditag05000075xtzl0023ev" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
