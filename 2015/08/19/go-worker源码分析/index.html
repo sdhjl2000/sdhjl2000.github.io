@@ -3,36 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>centos安装shadowsocks | 折腾录</title>
+  <title>go-worker源码分析 | 折腾录</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="wget https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip
-unzip master.zip
-开始编译cd shadowsocks-libev*
-./autogen.sh
-./configure –prefix=/usr &amp;amp;&amp;amp; make
-make install
-准备必须的文件mkdir -p /">
+  <meta name="description" content="go-workers
+Fetcher：先读取inprogress处理，启动一个goroutine不停将queue移动到inprogress中，for循环等待能冲queue中pop数据则放入Message(),Acknowledge负责处理完成后inprogress移除
+Manager：负责启动特定个数的worker,以及维护退出，开始等行为
+Worker：负责处理读取manager中引用到的fet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="centos安装shadowsocks">
-<meta property="og:url" content="http://sdhjl2000.github.io/2015/08/16/centos安装shadowsocks/index.html">
+<meta property="og:title" content="go-worker源码分析">
+<meta property="og:url" content="http://sdhjl2000.github.io/2015/08/19/go-worker源码分析/index.html">
 <meta property="og:site_name" content="折腾录">
-<meta property="og:description" content="wget https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip
-unzip master.zip
-开始编译cd shadowsocks-libev*
-./autogen.sh
-./configure –prefix=/usr &amp;amp;&amp;amp; make
-make install
-准备必须的文件mkdir -p /">
-<meta property="og:updated_time" content="2015-08-16T12:38:02.000Z">
+<meta property="og:description" content="go-workers
+Fetcher：先读取inprogress处理，启动一个goroutine不停将queue移动到inprogress中，for循环等待能冲queue中pop数据则放入Message(),Acknowledge负责处理完成后inprogress移除
+Manager：负责启动特定个数的worker,以及维护退出，开始等行为
+Worker：负责处理读取manager中引用到的fet">
+<meta property="og:updated_time" content="2015-08-19T14:51:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="centos安装shadowsocks">
-<meta name="twitter:description" content="wget https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip
-unzip master.zip
-开始编译cd shadowsocks-libev*
-./autogen.sh
-./configure –prefix=/usr &amp;amp;&amp;amp; make
-make install
-准备必须的文件mkdir -p /">
+<meta name="twitter:title" content="go-worker源码分析">
+<meta name="twitter:description" content="go-workers
+Fetcher：先读取inprogress处理，启动一个goroutine不停将queue移动到inprogress中，for循环等待能冲queue中pop数据则放入Message(),Acknowledge负责处理完成后inprogress移除
+Manager：负责启动特定个数的worker,以及维护退出，开始等行为
+Worker：负责处理读取manager中引用到的fet">
   
     <link rel="alternative" href="/atom.xml" title="折腾录" type="application/atom+xml">
   
@@ -77,10 +68,10 @@ make install
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-centos安装shadowsocks" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-go-worker源码分析" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/08/16/centos安装shadowsocks/" class="article-date">
-  <time datetime="2015-08-16T12:37:29.000Z" itemprop="datePublished">2015-08-16</time>
+    <a href="/2015/08/19/go-worker源码分析/" class="article-date">
+  <time datetime="2015-08-19T14:51:17.000Z" itemprop="datePublished">2015-08-19</time>
 </a>
     
   </div>
@@ -91,7 +82,7 @@ make install
         
   
     <h1 class="article-title" itemprop="name">
-      centos安装shadowsocks
+      go-worker源码分析
     </h1>
   
 
@@ -99,24 +90,19 @@ make install
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>wget <a href="https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip</a></p>
-<p>unzip master.zip</p>
-<h1 id="开始编译">开始编译</h1><p>cd shadowsocks-libev*</p>
-<p>./autogen.sh</p>
-<p>./configure –prefix=/usr &amp;&amp; make</p>
-<p>make install</p>
-<h1 id="准备必须的文件">准备必须的文件</h1><p>mkdir -p /etc/shadowsocks-libev</p>
-<p>cp ./rpm/SOURCES/etc/init.d/shadowsocks-libev /etc/init.d/shadowsocks-libev</p>
-<p>cp ./debian/config.json /etc/shadowsocks-libev/config.json</p>
-<p>chmod +x /etc/init.d/shadowsocks-libev</p>
-<h1 id="编辑配置文件">编辑配置文件</h1><p>vim /etc/shadowsocks-libev/config.json</p>
-<h1 id="启动服务">启动服务</h1><p>service shadowsocks-libev start</p>
-<p>#启动本地socks<br>sslocal -c /etc/shadowsocks-libev/config.json -d start –pid-file /tmp/sslocal.pid –log-file /tmp/sslocal.log</p>
+        <p><a href="https://github.com/jrallison/go-workers" target="_blank" rel="external">go-workers</a></p>
+<p>Fetcher：先读取inprogress处理，启动一个goroutine不停将queue移动到inprogress中，for循环等待能冲queue中pop数据则放入Message(),Acknowledge负责处理完成后inprogress移除</p>
+<p>Manager：负责启动特定个数的worker,以及维护退出，开始等行为</p>
+<p>Worker：负责处理读取manager中引用到的fetcher中的消息，同时处理完成后设置fetcher为ready继续读取下一条queue同时设置manager的commit为刚出来完的Msg，然后manager调用fetcher的Acknowledge</p>
+<p>Middlewares：消息处理是链式的这样就可以开发中间件功能，例如日志,重试等</p>
+<p>优点：中间件的设计</p>
+<p>缺点：传统的处理方式是开启多个线程等待处理，在golang中使用通道通信来维护状态，但是由于channel是引用，任何对其的修改都会导致别的方法体中行为的触发，例如Worker中通过引用manager直接操作fetcher写入Reday,而fetcher通过等待ready来读取下一条消息，传统的程序可以通过直接读代码知道数据的处理流程，而使用channel后需要跳转着理清数据的处理顺序。</p>
+<p>总结：建议channel状态的协调一个类中，而其他类中只是等待该channel进行操作</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sdhjl2000.github.io/2015/08/16/centos安装shadowsocks/" data-id="cidiwe0gt00007oxtp1dz1bo7" class="article-share-link">Share</a>
+      <a data-url="http://sdhjl2000.github.io/2015/08/19/go-worker源码分析/" data-id="cidiwe0hx00027oxt1s2i6xwz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -125,15 +111,11 @@ make install
     
 <nav id="article-nav">
   
-    <a href="/2015/08/19/安装tesseract进行图像识别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          安装tesseract进行图像识别
-        
-      </div>
-    </a>
   
+    <a href="/2015/08/19/安装tesseract进行图像识别/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">安装tesseract进行图像识别</div>
+    </a>
   
 </nav>
 
