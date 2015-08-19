@@ -83,7 +83,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>这两天在使用pillow完成图像识别的一个小任务，mac上配置起来还算方便，但是再centos服务器配置的时候遇到一些麻烦，记录下来</p>
-<p>方案1：<a href="http://pkgs.org/download/tesseract，安装后和训练数据(https://code.google.com/p/tesseract-ocr/downloads/list)无法正常使用，提示actual_tessdata_num_entries" target="_blank" rel="external">http://pkgs.org/download/tesseract，安装后和训练数据(https://code.google.com/p/tesseract-ocr/downloads/list)无法正常使用，提示actual_tessdata_num_entries</a> &lt;= TESSDATA_NUM_ENTRIES:Error:Assert failed:in file ..\ccutil\tessdatamanager.cpp，官方说法是训练文件不对应，但是安装了三个版本的tesseract都不行</p>
+<p>方案1：<a href="http://pkgs.org/download/tesseract" target="_blank" rel="external">http://pkgs.org/download/tesseract</a> ，安装后和训练数据( <a href="https://code.google.com/p/tesseract-ocr/downloads/list" target="_blank" rel="external">https://code.google.com/p/tesseract-ocr/downloads/list</a> ) 无法正常使用，提示actual_tessdata_num_entries &lt;= TESSDATA_NUM_ENTRIES:Error:Assert failed:in file ..\ccutil\tessdatamanager.cpp，官方说法是训练文件不对应，但是安装了三个版本的tesseract都不行</p>
 <p>方案2：手动安装，请参考<a href="https://www.simpleservers.co.uk/clients/whmcs/knowledgebase/600/Install-Tesseract-OCR-libs-from-sources-in-Centos.html" target="_blank" rel="external">https://www.simpleservers.co.uk/clients/whmcs/knowledgebase/600/Install-Tesseract-OCR-libs-from-sources-in-Centos.html</a></p>
 <p>方案3：使用PUIAS_6_computational源</p>
 <p>$ vim /etc/yum.repos.d/puias-computational.repo<br>粘贴：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[PUIAS_6_computational]</span><br><span class="line">name=PUIAS computational Base <span class="variable">$releasever</span> - <span class="variable">$basearch</span></span><br><span class="line">mirrorlist=http://puias.math.ias.edu/data/puias/computational/<span class="variable">$releasever</span>/<span class="variable">$basearch</span>/mirrorlist</span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puias</span><br></pre></td></tr></table></figure></p>
@@ -93,7 +93,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sdhjl2000.github.io/2015/08/19/安装tesseract进行图像识别/" data-id="ciditag18000175xtsxi63tm2" class="article-share-link">Share</a>
+      <a data-url="http://sdhjl2000.github.io/2015/08/19/安装tesseract进行图像识别/" data-id="ciditgob60001cbxti7chbx42" class="article-share-link">Share</a>
       
       
     </footer>
@@ -142,7 +142,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sdhjl2000.github.io/2015/08/16/centos安装shadowsocks/" data-id="ciditag05000075xtzl0023ev" class="article-share-link">Share</a>
+      <a data-url="http://sdhjl2000.github.io/2015/08/16/centos安装shadowsocks/" data-id="ciditgoa40000cbxtj6u0cgop" class="article-share-link">Share</a>
       
       
     </footer>
